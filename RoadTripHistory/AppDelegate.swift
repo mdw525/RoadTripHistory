@@ -7,16 +7,52 @@
 //
 
 import UIKit
+import MapKit
+import Firebase
+
+class TripLocation: NSObject, MKAnnotation {
+    var title: String?
+    var coordinate: CLLocationCoordinate2D
+    
+    init(title: String, coordinate: CLLocationCoordinate2D) {
+        self.title = title
+        self.coordinate = coordinate
+    }
+}
+
+struct LocationValues{
+    static var initialLocation: CLLocationCoordinate2D?
+    static var Assisgned : Bool?
+    static var LocationsList : [TripLocation]?
+    static var CurrentLocation : TripLocation?
+    static let regionRadius: CLLocationDistance = 1000
+    static var textBody : String?
+    static var locationManager = CLLocationManager()
+}
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
+    
+        
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil)
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.sharedApplication().registerForRemoteNotifications()
+        LocationValues.Assisgned = false
+        //super.registerForRemoteNotifications();
         // Override point for customization after application launch.
+        LocationValues.LocationsList?.append(TripLocation(title: "Celilo Falls", coordinate: CLLocationCoordinate2D(latitude: 45.650565, longitude: -120.960659)))
+        LocationValues.LocationsList?.append(TripLocation(title: "Starvation Creek", coordinate: CLLocationCoordinate2D(latitude: 45.687534, longitude: -121.690806)))
+        LocationValues.LocationsList?.append(TripLocation(title: "Oregon Steam Navigation Company", coordinate: CLLocationCoordinate2D(latitude: 45.600324, longitude: -122.619479)))
         return true
+    }
+        
+        
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -41,6 +77,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
-}
 
